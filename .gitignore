@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+
+# Environment
+.env
+.venv/
+env/
+mra/
+
+# Data
+data/
+chroma_sessions/
+chroma_db/
+
+# Models / cache
+.cache/
+*.bin
+*.pt
+
+# OS
+.DS_Store
+Thumbs.db
