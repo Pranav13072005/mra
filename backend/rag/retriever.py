@@ -138,3 +138,13 @@ class RAGRetriever:
     def get_vectorstore(self) -> Chroma:
         """Expose vectorstore for direct access if needed."""
         return self.vectorstore
+    
+def retrieve(query: str, vectorstore, top_k: int = 4):
+    retriever = RAGRetriever(vectorstore=vectorstore, use_reranker=True)
+
+    docs = retriever.retrieve(query, top_k)
+
+    return [
+        d.page_content if hasattr(d, "page_content") else str(d)
+        for d in docs
+    ]

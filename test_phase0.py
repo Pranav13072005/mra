@@ -11,7 +11,26 @@ for key in ["pipeline_a_vision_only", "pipeline_b_rag_only", "pipeline_c_multimo
     ans = result[key]["answer"]
     assert len(ans) > 10, f"{key} returned too-short answer: {ans}"
     print(f"[{key}] {ans[:120]}...")
+def evaluate_result(result):
+    scores = {}
 
+    for key in ["pipeline_a_vision_only", "pipeline_b_rag_only", "pipeline_c_multimodal_rag"]:
+        answer = result[key]["answer"]
+
+        scores[key] = {
+            "length": len(answer),
+            "uses_visual": "[VISUAL]" in answer,
+            "uses_paper": "[PAPER" in answer or "[PAPER:" in answer
+        }
+
+    return scores
+
+
+# RUN EVALUATION
+scores = evaluate_result(result)
+print("\nEvaluation:")
+for k, v in scores.items():
+    print(f"{k}: {v}")
 # Check Pipeline C evidence structure
 evidence = result["pipeline_c_multimodal_rag"]["evidence"]
 assert "visual_description" in evidence

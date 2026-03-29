@@ -34,20 +34,27 @@ Your job:
 4. Be concise and direct. Cite which passage your answer comes from when possible."""
 
 
-def build_context_string(docs: List[Document]) -> str:
-    """
-    Format retrieved chunks into a numbered context block.
-    This makes it easier for the LLM to cite sources.
-    """
+def build_context_string(docs) -> str:
     parts = []
-    for i, doc in enumerate(docs):
-        source = doc.metadata.get("source", "unknown")
-        page   = doc.metadata.get("page", "?")
-        parts.append(
-            f"[Passage {i+1}] (Source: {source}, Page: {page})\n{doc.page_content}"
-        )
-    return "\n\n---\n\n".join(parts)
 
+    for i, doc in enumerate(docs):
+        # ✅ CASE 1: LangChain Document
+        if hasattr(doc, "page_content"):
+            source = doc.metadata.get("source", "unknown")
+            page = doc.metadata.get("page", "?")
+            content = doc.page_content
+
+        # ✅ CASE 2: Plain string (your current pipeline)
+        else:
+            source = "unknown"
+            page = "?"
+            content = str(doc)
+
+        parts.append(
+            f"[Passage {i+1}] (Source: {source}, Page: {page})\n{content}"
+        )
+
+    return "\n\n---\n\n".join(parts)
 
 def generate_answer(query: str,
                     context_docs: List[Document]) -> Dict:
@@ -87,3 +94,10 @@ Answer based ONLY on the context above:"""
         "model":   MODEL_NAME,
         "usage":   response.usage
     }
+def generate_rag_answer(query: str, passages: list[str]) -> str:
+    """
+    Wrapper for pipeline usage.
+    Returns ONLY answer string.
+    """
+    result = generate_answer(query, passages)
+    return result["answer"]
