@@ -190,6 +190,10 @@ multimodal-research-assistant/
 ```
 
 ---
+## UI (WORKING DEMO SCREENSHOT)
+
+<img width="1900" height="878" alt="image" src="https://github.com/user-attachments/assets/d7109ade-73c8-470b-b51c-aca40a9e32b4" />
+
 
 ## Reproducibility
 
