@@ -2,7 +2,8 @@
 
 > **Does augmenting a vision-language model with retrieved paper text improve its ability to answer questions about scientific figures — and does this effect vary by question type?**
 > 
-
+Live Demo: https://huggingface.co/spaces/pranav070/mra
+> 
 Corpus: Attention Is All You Need · ResNet · BERT · 30 figure-question pairs across 3 question categories
 
 Evaluation: 3-way pipeline comparison · LLM-as-judge scoring · Failure mode taxonomy
